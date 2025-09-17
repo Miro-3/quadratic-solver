@@ -1,4 +1,3 @@
-# quadratic-solver
 
 # Quadratic Equation Solver
 
