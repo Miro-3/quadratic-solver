@@ -4,23 +4,55 @@
   <meta charset="UTF-8">
   <title>Quadratic Equation Solver</title>
   <style>
-    body { font-family: Arial; background:#f0f0f0; padding:20px; }
-    .container { max-width:500px; margin:auto; padding:20px; border:2px solid #444; border-radius:12px; background:#fff; }
-    input { width:80px; }
-    button { padding:8px 16px; border:none; border-radius:8px; background:#0073e6; color:white; font-size:16px; }
-    pre { background:#eee; padding:10px; border-radius:8px; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 500px;
+      margin: auto;
+      padding: 20px;
+      border: 2px solid #444;
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: 2px 2px 12px rgba(0,0,0,0.2);
+    }
+    h2 { text-align: center; }
+    input { width: 80px; padding: 4px; margin: 4px 0; }
+    button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      background: #0073e6;
+      color: white;
+      font-size: 16px;
+      margin: 4px;
+      cursor: pointer;
+    }
+    button:hover { background: #005bb5; }
+    pre {
+      background: #eee;
+      padding: 10px;
+      border-radius: 8px;
+      white-space: pre-wrap;
+    }
+    .buttons { text-align: center; }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2 style="text-align:center;">Quadratic Equation Solver</h2>
+    <h2>Quadratic Equation Solver</h2>
     <p>Equation form: <em>ax² + bx + c = 0</em></p>
 
-    <label>Enter a: <input id="a" type="number" step="any"></label><br><br>
-    <label>Enter b: <input id="b" type="number" step="any"></label><br><br>
+    <label>Enter a: <input id="a" type="number" step="any"></label><br>
+    <label>Enter b: <input id="b" type="number" step="any"></label><br>
     <label>Enter c: <input id="c" type="number" step="any"></label><br><br>
 
-    <button onclick="solveQuadratic()">Solve</button>
+    <div class="buttons">
+      <button onclick="solveQuadratic()">Solve</button>
+      <button onclick="resetForm()">Reset</button>
+    </div>
 
     <h3>Result:</h3>
     <pre id="result"></pre>
@@ -31,14 +63,15 @@
       const a = parseFloat(document.getElementById('a').value);
       const b = parseFloat(document.getElementById('b').value);
       const c = parseFloat(document.getElementById('c').value);
+      const result = document.getElementById('result');
 
       if (isNaN(a) || isNaN(b) || isNaN(c)) {
-        document.getElementById('result').textContent = "⚠️ Please enter valid numbers for a, b, and c.";
+        result.textContent = "⚠️ Please enter valid numbers for a, b, and c.";
         return;
       }
 
       if (a === 0) {
-        document.getElementById('result').textContent = "This is not a quadratic equation (a cannot be zero).";
+        result.textContent = "This is not a quadratic equation (a cannot be zero).";
         return;
       }
 
@@ -54,11 +87,18 @@
         output = `One real root:\n  x = ${root}`;
       } else {
         const real = (-b / (2*a)).toFixed(3);
-        const imag = (Math.sqrt(-discriminant) / (2*a)).toFixed(3);
+        const imag = (Math.sqrt(-discriminant) / (2*Math.abs(a))).toFixed(3);
         output = `Complex roots:\n  x₁ = ${real} + ${imag}i\n  x₂ = ${real} - ${imag}i`;
       }
 
-      document.getElementById('result').textContent = output;
+      result.textContent = output;
+    }
+
+    function resetForm() {
+      document.getElementById('a').value = "";
+      document.getElementById('b').value = "";
+      document.getElementById('c').value = "";
+      document.getElementById('result').textContent = "";
     }
   </script>
 </body>
